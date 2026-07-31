@@ -168,6 +168,11 @@ func (d *CloudWatchDeliverer) deliverLogsNative(ctx context.Context, logEvents [
 			}
 		}
 
+		if messageStr == "" {
+			d.logger.Warn("skipping log event with empty message")
+			continue
+		}
+
 		processedEvents = append(processedEvents, types.InputLogEvent{
 			Timestamp: aws.Int64(processedTimestamp),
 			Message:   aws.String(messageStr),
